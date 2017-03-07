@@ -14,6 +14,18 @@ var restaurantSchema = mongoose.Schema({
 
 var Restaurant = mongoose.model('Restaurant', restaurantSchema);
 
+exports.getAll = function (callback) {
+  Restaurant
+    .find()
+    .limit(20)
+    .exec(function (error, restaurants) {
+      if (error) {
+        console.error(error);
+        return callback(null);
+      }
+      return callback(restaurants);
+    })
+};
 // var stream = Restaurant.synchronize();
 // var count = 0
 // stream.on('data', function(err, doc){

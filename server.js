@@ -3,7 +3,7 @@ var express = require('express');
 var path = require('path');
 var app = express(); 								// create our app w/ express
 var mongoose = require('mongoose'); 					// mongoose for mongodb
-var port = process.env.PORT || 3000; 				// set the port
+var port = process.env.PORT || 8080; 				// set the port
 var database = require('./config/database'); 			// load the database config
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
@@ -39,7 +39,7 @@ app.use(passport.session()); // persistent login sessions
 
 
 // routes ======================================================================
-app.use('/auth', auth);
+app.use('/', auth);
 app.use('/restaurant', restaurant);
 // listen (start app with node server.js) ======================================
 app.listen(port);

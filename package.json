@@ -13,6 +13,7 @@
     "elasticsearch": "^12.1.3",
     "express": "~4.13.4",
     "express-session": "~1.12.1",
+    "ejs": "~2.3.4",
     "jade": "~1.11.0",
     "method-override": "~2.1.1",
     "mongoosastic": "^4.2.1",
