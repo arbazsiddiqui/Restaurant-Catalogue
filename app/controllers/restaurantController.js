@@ -26,6 +26,45 @@ router.post('/search', isLoggedIn, function (req, res) {
   })
 });
 
+router.post('/facetedSearch', function (req, res) {
+  searchQuery = req.body.qs;
+  client.search({
+    index: 'restaurants',
+    type: 'restaurant',
+    body: {
+      "query": {
+        "query_string": {
+          "default_field": "name",
+          "query": '*' + searchQuery + '*'
+        }
+      },
+      "aggs": {
+        "cuisines": {
+          "terms": {"field": "cuisine"},
+          "aggregations": {
+            "hits": {
+              "top_hits": { "size": 10 }
+            }
+          }
+        },
+        "boroughs": {
+          "terms": {"field": "borough"},
+          "aggregations": {
+            "hits": {
+              "top_hits": { "size": 10 }
+            }
+          }
+        }
+      }
+    }
+  }).then(function (resDoc) {
+    var results = {};
+    results.hits= resDoc.hits;
+    results.aggregations = resDoc.aggregations;
+    return res.json(results)
+  })
+});
+
 router.get('/allRestaurant', isLoggedIn, function (req, res) {
   restaurants = Resturant.getAll(function (restaurants) {
     return res.json(restaurants);
