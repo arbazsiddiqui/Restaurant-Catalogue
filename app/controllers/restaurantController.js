@@ -2,13 +2,13 @@ var express = require('express');
 var router = express.Router();
 var elasticsearch = require('elasticsearch');
 var Resturant = require('../models/restaurant');
-
+var isLoggedIn = require('../middlewares/isLoggedIn');
 var client = new elasticsearch.Client({
   host: 'localhost:9200',
   log: 'trace'
 });
 
-router.post('/search', function (req, res) {
+router.post('/search', isLoggedIn, function (req, res) {
   searchQuery = req.body.qs;
   client.search({
     index: 'restaurants',
@@ -26,7 +26,7 @@ router.post('/search', function (req, res) {
   })
 });
 
-router.get('/allRestaurant', function (req, res) {
+router.get('/allRestaurant', isLoggedIn, function (req, res) {
   restaurants = Resturant.getAll(function (restaurants) {
     return res.json(restaurants);
   });

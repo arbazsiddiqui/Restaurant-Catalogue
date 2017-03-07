@@ -7,6 +7,10 @@ angular.module('mainService', [])
       return $http.get('/restaurant/allRestaurant');
     };
 
+    searchFactory.searchByName = function (body) {
+      return $http.post('/restaurant/search', body); 
+    };
+
     return searchFactory;
   });
 

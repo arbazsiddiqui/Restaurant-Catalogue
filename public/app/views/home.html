@@ -1,5 +1,33 @@
 <div ng-controller="MainController">
-  <div ng-repeat="restaurant in allRestaurants">
-    {{restaurant.name}}
+
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-3 test">
+        <form ng-submit="searchByName()">
+          <input ng-model="query"/>
+          <button type="submit">Search</button>
+        </form>
+      </div>
+
+      <div class="col-sm-9" ng-repeat="restaurant in results.hits">
+        <h4>{{restaurant._source.name}}</h4>
+        <p>{{restaurant._source.address.building}}, {{restaurant._source.address.street}}</p>
+      </div>
+    </div>
   </div>
+
+
+
+  <!--<div ng-repeat="restaurant in allRestaurants">-->
+  <!--{{restaurant.name}}-->
+  <!--</div>-->
 </div>
+
+<style>
+  .test{
+    height: 100%;
+  }
+</style>
+
+
