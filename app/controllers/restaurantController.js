@@ -43,7 +43,7 @@ router.post('/facetedSearch', function (req, res) {
           "terms": {"field": "cuisine"},
           "aggregations": {
             "hits": {
-              "top_hits": { "size": 10 }
+              "top_hits": {"size": 10}
             }
           }
         },
@@ -51,7 +51,7 @@ router.post('/facetedSearch', function (req, res) {
           "terms": {"field": "borough"},
           "aggregations": {
             "hits": {
-              "top_hits": { "size": 10 }
+              "top_hits": {"size": 10}
             }
           }
         }
@@ -59,9 +59,46 @@ router.post('/facetedSearch', function (req, res) {
     }
   }).then(function (resDoc) {
     var results = {};
-    results.hits= resDoc.hits;
+    results.hits = resDoc.hits;
     results.aggregations = resDoc.aggregations;
     return res.json(results)
+  })
+});
+
+router.post('/gradeSearch', function (req, res) {
+  gt = parseInt(req.body.gt);
+  lt = parseInt(req.body.lt);
+  var script = "if (_source.grades == null){return false}; m=0; s=_source.grades.size(); if(s==0){return false}; for(obj in _source.grades){ m += obj.score;}; avg=m.div(s);if(avg>gt && avg<lt){return avg}";
+  client.search({
+    index: 'restaurants',
+    type: 'restaurant',
+    body: {
+      "query": {
+        "filtered": {
+          "filter": {
+            "script": {
+              "script": script,
+              "params": {
+                "gt": gt,
+                "lt": lt
+              }
+            }
+          }
+        }
+      },
+      "script_fields": {
+        "avgScore": {
+          "script": script,
+          "params": {
+            "gt": gt,
+            "lt": lt
+          }
+        }
+      },
+      "_source": true
+    }
+  }).then(function (resDoc) {
+    return res.json(resDoc.hits)
   })
 });
 

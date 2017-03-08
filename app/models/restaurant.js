@@ -5,7 +5,11 @@ var restaurantSchema = mongoose.Schema({
   address: mongoose.Schema.Types.Mixed,
   borough: String,
   cuisine: String,
-  grades: [],
+  grades: [{
+    date : Date,
+    grade : String,
+    score : Number
+  }],
   name: String,
   restaurant_id: String
 });
