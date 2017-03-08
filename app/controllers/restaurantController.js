@@ -68,7 +68,7 @@ router.post('/facetedSearch', function (req, res) {
 router.post('/gradeSearch', function (req, res) {
   gt = parseInt(req.body.gt);
   lt = parseInt(req.body.lt);
-  var script = "if (_source.grades == null){return false}; m=0; s=_source.grades.size(); if(s==0){return false}; for(obj in _source.grades){ m += obj.score;}; avg=m.div(s);if(avg>gt && avg<lt){return avg}";
+  var script = "if (_source.grades == null){return false}; m=0; s=_source.grades.size(); if(s==0){return false}; for(obj in _source.grades){ m += obj.score;}; avg=m.div(s);if(avg>=gt && avg<=lt){return avg}";
   client.search({
     index: 'restaurants',
     type: 'restaurant',
