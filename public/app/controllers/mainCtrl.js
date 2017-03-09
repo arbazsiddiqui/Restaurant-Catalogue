@@ -3,23 +3,29 @@ angular.module('mainCtrl', [])
     
     $scope.searchQuery = "";
     $scope.facetQuery = "";
-
+    $scope.gt = "";
+    $scope.lt = "";
+    $scope.facetFlag  = 0;
+    
     Search.all()
       .success(function (data) {
         $scope.allRestaurants = data;
       });
-    
-    $scope.searchByName = function () {
+
+    //searching by name
+    $scope.nameSearch = function () {
       var params = {
         qs : $scope.searchQuery
-      }
-      Search.searchByName(params)
+      };
+      Search.nameSearch(params)
         .success(function (data) {
           $scope.searchResults = data
         })
     };
 
+    //searching by facets
     $scope.facetedSearch = function () {
+      $scope.facetFlag  = 1;
       var params = {
         qs : $scope.facetQuery
       };
@@ -69,5 +75,17 @@ angular.module('mainCtrl', [])
         }
       }
       console.log($scope.facetResults)
-    }
+    };
+
+    //searching by grade
+    $scope.gradeSearch = function () {
+      var params = {
+        gt : $scope.gt,
+        lt : $scope.lt
+      };
+      Search.gradeSearch(params)
+        .success(function (data) {
+          $scope.gradeResults = data
+        })
+    };
   });

@@ -7,12 +7,16 @@ angular.module('mainService', [])
       return $http.get('/restaurant/allRestaurant');
     };
 
-    searchFactory.searchByName = function (body) {
+    searchFactory.nameSearch = function (body) {
       return $http.post('/restaurant/search', body); 
     };
 
     searchFactory.facetedSearch = function (body) {
       return $http.post('/restaurant/facetedSearch', body);
+    };
+
+    searchFactory.gradeSearch = function (body) {
+      return $http.post('/restaurant/gradeSearch', body);
     };
 
     return searchFactory;

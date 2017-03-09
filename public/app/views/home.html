@@ -4,7 +4,7 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-sm-3 test">
-        <form ng-submit="searchByName()">
+        <form ng-submit="nameSearch()">
           <input ng-model="searchQuery"/>
           <button type="submit">Search</button>
         </form>
@@ -13,32 +13,49 @@
           <input ng-model="facetQuery"/>
           <button type="submit">Faceted Search</button>
         </form>
-        <h2>Boroughs</h2>
-        <div ng-repeat="(key, value) in boroughs">
-          <label><input type="checkbox" ng-model="checkboxModel[key]"
-                        ng-true-value="'YES'"
-                        ng-false-value="'NO'"
-                        ng-change = "showHideResults('boroughs', key)">
-            {{key}} ({{value.count}} {{checkboxModel[key]}})</label>
-        </div>
-        <hr>
-        <h2>Cuisines</h2>
-        <div ng-repeat="(key, value) in cuisines">
-          <label><input type="checkbox" ng-model="checkboxModel[key]"
-                        ng-true-value="'YES'"
-                        ng-false-value="'NO'"
-                        ng-change = "showHideResults('cuisines', key)">
-            {{key}} ({{value.count}} {{checkboxModel[key]}})</label>
+
+        <form ng-submit="gradeSearch()">
+          <input ng-model="gt"/>
+          <input ng-model="lt"/>
+          <button type="submit">Grade Search</button>
+        </form>
+
+        <div ng-if="facetFlag == 1">
+          <h2>Boroughs</h2>
+          <div ng-repeat="(key, value) in boroughs">
+            <label><input type="checkbox" ng-model="checkboxModel[key]"
+                          ng-true-value="'YES'"
+                          ng-false-value="'NO'"
+                          ng-change="showHideResults('boroughs', key)">
+              {{key}} ({{value.count}} {{checkboxModel[key]}})</label>
+          </div>
+          <hr>
+          <h2>Cuisines</h2>
+          <div ng-repeat="(key, value) in cuisines">
+            <label><input type="checkbox" ng-model="checkboxModel[key]"
+                          ng-true-value="'YES'"
+                          ng-false-value="'NO'"
+                          ng-change="showHideResults('cuisines', key)">
+              {{key}} ({{value.count}} {{checkboxModel[key]}})</label>
+          </div>
         </div>
       </div>
+
 
       <div class="col-sm-9" ng-repeat="restaurant in searchResults.hits">
         <h4>{{restaurant._source.name}}</h4>
         <p>{{restaurant._source.address.building}}, {{restaurant._source.address.street}}</p>
       </div>
+
       <div class="col-sm-9" ng-repeat="restaurant in facetResults">
         <h4>{{restaurant._source.name}}</h4>
         <p>{{restaurant._source.address.building}}, {{restaurant._source.address.street}}</p>
+      </div>
+
+      <div class="col-sm-9" ng-repeat="restaurant in gradeResults.hits">
+        <h4>{{restaurant._source.name}}</h4>
+        <p>{{restaurant._source.address.building}}, {{restaurant._source.address.street}}</p>
+        <p>{{restaurant.fields.avgScore[0]}}</p>
       </div>
 
     </div>
