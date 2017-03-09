@@ -40,7 +40,7 @@ router.post('/facetedSearch', function (req, res) {
       },
       "aggs": {
         "cuisines": {
-          "terms": {"field": "cuisine"},
+          "terms": {"field": "cuisine.raw"},
           "aggregations": {
             "hits": {
               "top_hits": {"size": 10}
@@ -48,7 +48,7 @@ router.post('/facetedSearch', function (req, res) {
           }
         },
         "boroughs": {
-          "terms": {"field": "borough"},
+          "terms": {"field": "borough.raw"},
           "aggregations": {
             "hits": {
               "top_hits": {"size": 10}

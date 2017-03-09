@@ -5,18 +5,44 @@
     <div class="row">
       <div class="col-sm-3 test">
         <form ng-submit="searchByName()">
-          <input ng-model="query"/>
+          <input ng-model="searchQuery"/>
           <button type="submit">Search</button>
         </form>
+
+        <form ng-submit="facetedSearch()">
+          <input ng-model="facetQuery"/>
+          <button type="submit">Faceted Search</button>
+        </form>
+        <h2>Boroughs</h2>
+        <div ng-repeat="(key, value) in boroughs">
+          <label><input type="checkbox" ng-model="checkboxModel[key]"
+                        ng-true-value="'YES'"
+                        ng-false-value="'NO'"
+                        ng-change = "showHideResults('boroughs', key)">
+            {{key}} ({{value.count}} {{checkboxModel[key]}})</label>
+        </div>
+        <hr>
+        <h2>Cuisines</h2>
+        <div ng-repeat="(key, value) in cuisines">
+          <label><input type="checkbox" ng-model="checkboxModel[key]"
+                        ng-true-value="'YES'"
+                        ng-false-value="'NO'"
+                        ng-change = "showHideResults('cuisines', key)">
+            {{key}} ({{value.count}} {{checkboxModel[key]}})</label>
+        </div>
       </div>
 
-      <div class="col-sm-9" ng-repeat="restaurant in results.hits">
+      <div class="col-sm-9" ng-repeat="restaurant in searchResults.hits">
         <h4>{{restaurant._source.name}}</h4>
         <p>{{restaurant._source.address.building}}, {{restaurant._source.address.street}}</p>
       </div>
+      <div class="col-sm-9" ng-repeat="restaurant in facetResults">
+        <h4>{{restaurant._source.name}}</h4>
+        <p>{{restaurant._source.address.building}}, {{restaurant._source.address.street}}</p>
+      </div>
+
     </div>
   </div>
-
 
 
   <!--<div ng-repeat="restaurant in allRestaurants">-->
@@ -25,7 +51,7 @@
 </div>
 
 <style>
-  .test{
+  .test {
     height: 100%;
   }
 </style>

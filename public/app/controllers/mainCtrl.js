@@ -1,8 +1,9 @@
 angular.module('mainCtrl', [])
   .controller('MainController', function ($scope, Search) {
     
-    $scope.query = "";
-    
+    $scope.searchQuery = "";
+    $scope.facetQuery = "";
+
     Search.all()
       .success(function (data) {
         $scope.allRestaurants = data;
@@ -10,11 +11,63 @@ angular.module('mainCtrl', [])
     
     $scope.searchByName = function () {
       var params = {
-        qs : $scope.query
+        qs : $scope.searchQuery
       }
       Search.searchByName(params)
         .success(function (data) {
-          $scope.results = data
+          $scope.searchResults = data
         })
+    };
+
+    $scope.facetedSearch = function () {
+      var params = {
+        qs : $scope.facetQuery
+      };
+      Search.facetedSearch(params)
+        .success(function (data) {
+          makeFacets(data);
+        })
+    }
+    
+    var makeFacets = function (data) {
+      $scope.checkboxModel = {};
+
+      var boroughs = {};
+      var bBuckets = data.aggregations.boroughs.buckets;
+      for (i=0; i<bBuckets.length; i++){
+        boroughs[bBuckets[i].key] = {
+          "count" : bBuckets[i].doc_count,
+          "source" : bBuckets[i].hits.hits.hits
+        };
+        $scope.checkboxModel[bBuckets[i].key] = 'NO'
+      }
+
+      var cuisines = {};
+      var cBuckets = data.aggregations.cuisines.buckets;
+      for (var j=0; j<cBuckets.length; j++){
+        cuisines[cBuckets[j].key] = {
+          "count" : cBuckets[j].doc_count,
+          "source" : cBuckets[j].hits.hits.hits
+        };
+        $scope.checkboxModel[cBuckets[j].key] = 'NO'
+      }
+      $scope.boroughs = boroughs;
+      $scope.cuisines = cuisines;
+    };
+
+    $scope.facetResults = [];
+    $scope.showHideResults = function (facetType, bucket) {
+      if($scope.checkboxModel[bucket] == 'YES'){
+        for(i =0; i<$scope[facetType][bucket].source.length; i++){
+          $scope.facetResults.push($scope[facetType][bucket].source[i]);
+        }
+      }
+      if($scope.checkboxModel[bucket] == 'NO'){
+        for(i =$scope.facetResults.length-1; i>=0; i--){
+          if($scope.facetResults[i]._source[facetType.slice(0, -1)].toLowerCase() == bucket.toLowerCase())
+            $scope.facetResults.splice(i, 1);
+        }
+      }
+      console.log($scope.facetResults)
     }
   });

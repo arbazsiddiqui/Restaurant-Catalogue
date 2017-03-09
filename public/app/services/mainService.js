@@ -11,6 +11,10 @@ angular.module('mainService', [])
       return $http.post('/restaurant/search', body); 
     };
 
+    searchFactory.facetedSearch = function (body) {
+      return $http.post('/restaurant/facetedSearch', body);
+    };
+
     return searchFactory;
   });
 
