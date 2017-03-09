@@ -1,1 +1,1 @@
-angular.module('restaurantCatalogue', ['mainCtrl', 'mainService']);
+angular.module('restaurantCatalogue', ['mainCtrl', 'mainService', 'angucomplete-alt']);

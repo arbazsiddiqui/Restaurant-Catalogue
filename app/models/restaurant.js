@@ -18,10 +18,10 @@ var restaurantSchema = mongoose.Schema({
 
 var Restaurant = mongoose.model('Restaurant', restaurantSchema);
 
-exports.getAll = function (callback) {
+exports.getAllNames = function (callback) {
   Restaurant
     .find()
-    .limit(20)
+    .select('name -_id')
     .exec(function (error, restaurants) {
       if (error) {
         console.error(error);

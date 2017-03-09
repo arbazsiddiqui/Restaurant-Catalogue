@@ -6,11 +6,26 @@ angular.module('mainCtrl', [])
     $scope.gt = "";
     $scope.lt = "";
     $scope.facetFlag  = 0;
-    
+    $scope.restaurantNames = [];
     Search.all()
       .success(function (data) {
-        $scope.allRestaurants = data;
+        $scope.restaurantNames = data;
       });
+
+    //searching by name auto
+    $scope.nameSearchAuto = function () {
+      if($scope.searchQuery.title)
+        searchQuery = $scope.searchQuery.title;
+      else
+        searchQuery = $scope.searchQuery.originalObject;
+      var params = {
+        qs : searchQuery
+      };
+      Search.nameSearch(params)
+        .success(function (data) {
+          $scope.searchResults = data
+        })
+    };
 
     //searching by name
     $scope.nameSearch = function () {

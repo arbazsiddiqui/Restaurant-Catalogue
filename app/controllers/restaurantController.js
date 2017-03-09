@@ -102,8 +102,8 @@ router.post('/gradeSearch', function (req, res) {
   })
 });
 
-router.get('/allRestaurant', isLoggedIn, function (req, res) {
-  restaurants = Resturant.getAll(function (restaurants) {
+router.get('/allRestaurant', function (req, res) {
+  restaurants = Resturant.getAllNames(function (restaurants) {
     return res.json(restaurants);
   });
 });

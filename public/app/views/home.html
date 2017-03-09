@@ -4,9 +4,26 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-sm-3 test">
+        <form ng-submit="nameSearchAuto()">
+          <div angucomplete-alt id="ex1"
+               ng-model="searchQuery"
+               placeholder="Search by name"
+               maxlength="50"
+               pause="100"
+               selected-object="searchQuery"
+               local-data="restaurantNames"
+               search-fields="name"
+               title-field="name"
+               minlength="1",
+               override-suggestions="true"
+               input-class="form-control form-control-small"
+               match-class="highlight"></div>
+          <button type="submit">Search Name(Auto)</button>
+        </form>
+
         <form ng-submit="nameSearch()">
           <input ng-model="searchQuery"/>
-          <button type="submit">Search</button>
+          <button type="submit">Search Name</button>
         </form>
 
         <form ng-submit="facetedSearch()">
@@ -27,7 +44,7 @@
                           ng-true-value="'YES'"
                           ng-false-value="'NO'"
                           ng-change="showHideResults('boroughs', key)">
-              {{key}} ({{value.count}} {{checkboxModel[key]}})</label>
+              {{key}} ({{value.count}})</label>
           </div>
           <hr>
           <h2>Cuisines</h2>
@@ -36,7 +53,7 @@
                           ng-true-value="'YES'"
                           ng-false-value="'NO'"
                           ng-change="showHideResults('cuisines', key)">
-              {{key}} ({{value.count}} {{checkboxModel[key]}})</label>
+              {{key}} ({{value.count}})</label>
           </div>
         </div>
       </div>
@@ -60,11 +77,6 @@
 
     </div>
   </div>
-
-
-  <!--<div ng-repeat="restaurant in allRestaurants">-->
-  <!--{{restaurant.name}}-->
-  <!--</div>-->
 </div>
 
 <style>
