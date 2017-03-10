@@ -37,6 +37,16 @@
           <button type="submit">Grade Search</button>
         </form>
 
+        <form ng-submit="geoSearch()">
+          <input ng-model="lat"/>
+          <input ng-model="lon"/>
+          <button type="submit">Location Search</button>
+        </form>
+
+        <form ng-submit="getLocation()">
+          <button type="submit">Get Nearby</button>
+        </form>
+
         <div ng-if="facetFlag == 1">
           <h2>Boroughs</h2>
           <div ng-repeat="(key, value) in boroughs">
@@ -73,6 +83,12 @@
         <h4>{{restaurant._source.name}}</h4>
         <p>{{restaurant._source.address.building}}, {{restaurant._source.address.street}}</p>
         <p>{{restaurant.fields.avgScore[0]}}</p>
+      </div>
+
+      Total restaurants nearby : {{geoResults.total}}
+      <div class="col-sm-9" ng-repeat="restaurant in geoResults.hits">
+        <h4>{{restaurant._source.name}}</h4>
+        <p>{{restaurant._source.address.building}}, {{restaurant._source.address.street}}</p>
       </div>
 
     </div>

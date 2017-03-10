@@ -1,12 +1,15 @@
 angular.module('mainCtrl', [])
-  .controller('MainController', function ($scope, Search) {
+  .controller('MainController', function ($scope, Search, geolocationSvc) {
     
     $scope.searchQuery = "";
     $scope.facetQuery = "";
     $scope.gt = "";
     $scope.lt = "";
+    $scope.lon = "";
+    $scope.lat = "";
     $scope.facetFlag  = 0;
     $scope.restaurantNames = [];
+    
     Search.all()
       .success(function (data) {
         $scope.restaurantNames = data;
@@ -103,4 +106,27 @@ angular.module('mainCtrl', [])
           $scope.gradeResults = data
         })
     };
+    
+    //searching by location
+    $scope.geoSearch = function () {
+      var params = {
+        lon : $scope.lon,
+        lat : $scope.lat
+      };
+      Search.geoSearch(params)
+        .success(function (data) {
+          $scope.geoResults = data
+        })
+    };
+
+    $scope.getLocation = function () {
+      geolocationSvc.getCurrentPosition().then(
+        function(position) { //
+          $scope.lon = position.coords.longitude;
+          $scope.lat = position.coords.latitude;
+          $scope.geoSearch();
+        }
+      );
+    };
+    
   });
