@@ -102,6 +102,34 @@ router.post('/gradeSearch', function (req, res) {
   })
 });
 
+router.post('/geoSearch', function (req, res) {
+  lon = parseFloat(req.body.lon);
+  lat = parseFloat(req.body.lat);
+  client.search({
+    index: 'restaurants',
+    type: 'restaurant',
+    body: {
+      "query": {
+        "nested": {
+          "path": "address",
+          "query": {
+            "filtered": {
+              "filter": {
+                "geo_distance": {
+                  "distance": "1km",
+                  "address.coord": [lon, lat]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }).then(function (resDoc) {
+    return res.json(resDoc.hits)
+  })
+});
+
 router.get('/allRestaurant', function (req, res) {
   restaurants = Resturant.getAllNames(function (restaurants) {
     return res.json(restaurants);
