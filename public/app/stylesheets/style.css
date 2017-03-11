@@ -1,0 +1,108 @@
+html, body, .container {
+    height: 100%;
+}
+
+.container {
+    display: table;
+    width: 100%;
+    margin-top: -20px;
+    padding: 2px 0 0 0; /*set left/right padding according to needs*/
+    box-sizing: border-box;
+}
+
+.row {
+    height: 100%;
+    display: table-row;
+}
+
+.row .no-float {
+    display: table-cell;
+    float: none;
+}
+
+.searchBar {
+    background-color: #eff2f3;
+}
+
+.contentArea {
+    padding-right: 40px;
+    padding-left: 40px;
+}
+
+.box {
+    border-radius: 3px;
+    background-color: #fafafa;
+    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.16), 0 4px 10px 0 rgba(0, 0, 0, 0.12);
+    padding: 10px 25px;
+    /*text-align: right;*/
+    display: block;
+    margin-top: 15px;
+}
+
+.info h4 {
+    color: #334858;
+    font-size: 22px;
+}
+
+.info h5 {
+    font-size: 17px;
+!important;
+    padding-top: 5px;
+}
+
+.info > p {
+    color: #334858;
+    font-size: 16px;
+    padding-top: 0;
+    text-align: justify;
+}
+
+.container-fluid {
+    padding-right: 30px;
+    padding-left: 30px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.navbar-default {
+    background-color: #334858;
+    border-color: #334858;
+    min-height : 70px;
+    border-radius: 0;
+}
+
+.navbar-default .navbar-brand {
+    color: #fff;
+    padding-top: 23px;
+}
+
+.label-danger {
+    background-color: #553a99;
+}
+
+.label-success {
+    background-color: #6fbc6d;
+}
+
+.angucomplete-dropdown {
+    margin-top: 34px; !important;
+}
+.col-xs-4 {
+    padding-right: 1px;
+    padding-left: 1px;
+    padding-top: 10px;
+}
+
+.helperText {
+    color: #334858;
+    font-size: 16px;
+    padding-top: 2px;
+    padding-left: 4px;
+    text-align: justify;
+}
+
+.btn-default {
+    border-radius: 0;
+    background-color: #08538c;
+    color : #fff;
+}

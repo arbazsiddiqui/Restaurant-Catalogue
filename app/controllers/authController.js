@@ -38,5 +38,10 @@ module.exports = function (passport) {
     failureRedirect : '/'
   }));
 
+  router.get('logout', function (req, res) {
+    req.logout();
+    res.redirect('/login');
+  });
+
   return router;
 };
