@@ -45,6 +45,7 @@ angular.module('mainService', [])
 
       return deferred.promise;
     }
+
     return {
       getCurrentPosition: getCurrentPosition
     };

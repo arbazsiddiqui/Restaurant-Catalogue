@@ -17,6 +17,7 @@ module.exports = function (passport) {
     res.render('signup.ejs');
   });
 
+  //bootstrap Angular after logging in
   router.get('/home', isLoggedIn, function (req, res) {
     res.sendFile(path.resolve(__dirname + '/../../public/app/views/index.html'));
   });
@@ -31,11 +32,11 @@ module.exports = function (passport) {
     failureRedirect: '/signup'
   }));
 
-  router.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
+  router.get('/auth/google', passport.authenticate('google', {scope: ['profile', 'email']}));
 
   router.get('/auth/google/callback', passport.authenticate('google', {
     successRedirect: '/home',
-    failureRedirect : '/'
+    failureRedirect: '/'
   }));
 
   router.get('logout', function (req, res) {

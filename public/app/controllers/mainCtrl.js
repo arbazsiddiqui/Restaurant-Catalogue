@@ -14,6 +14,7 @@ angular.module('mainCtrl', [])
     $scope.tab = 1;
     $scope.selectedobject = "a";
 
+    //populate names for autoComplete
     Search.all()
       .success(function (data) {
         $scope.restaurantNames = data;
@@ -49,6 +50,7 @@ angular.module('mainCtrl', [])
         })
     };
 
+    //function to make facets on results and checkbox model for it.
     var makeFacets = function (data) {
       $scope.checkboxModel = {};
 
@@ -61,7 +63,6 @@ angular.module('mainCtrl', [])
         };
         $scope.checkboxModel[bBuckets[i].key] = 'NO'
       }
-
       var cuisines = {};
       var cBuckets = data.aggregations.cuisines.buckets;
       for (var j = 0; j < cBuckets.length; j++) {
@@ -75,6 +76,7 @@ angular.module('mainCtrl', [])
       $scope.cuisines = cuisines;
     };
 
+    //function to push and pull facetresult based on facet selection
     $scope.showHideResults = function (facetType, bucket) {
       if ($scope.checkboxModel[bucket] == 'YES') {
         for (i = 0; i < $scope[facetType][bucket].source.length; i++) {
@@ -89,7 +91,7 @@ angular.module('mainCtrl', [])
       }
     };
 
-    //searching by grade
+    //searching by avg score
     $scope.gradeSearch = function () {
       $scope.facetResults = [];
       var params = {
@@ -102,7 +104,7 @@ angular.module('mainCtrl', [])
         })
     };
 
-    //searching by location
+    //searching by location latitude and longitude
     $scope.geoSearch = function () {
       $scope.facetResults = [];
       $scope.geoFlag = 1;
@@ -116,6 +118,7 @@ angular.module('mainCtrl', [])
         })
     };
 
+    //searching by location nearby
     $scope.getLocation = function () {
       $scope.facetResults = [];
       $scope.geoFlag = 1;
@@ -128,11 +131,12 @@ angular.module('mainCtrl', [])
       );
     };
     
+    //functions for tab selection
     $scope.setTab = function (newTab) {
       $scope.tab = newTab;
     };
     $scope.isSet = function (tabNum) {
       return $scope.tab === tabNum;
     };
-    
+
   });

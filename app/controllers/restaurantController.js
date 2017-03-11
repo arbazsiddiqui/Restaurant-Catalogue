@@ -8,6 +8,7 @@ var client = new elasticsearch.Client({
   log: 'trace'
 });
 
+//name based search
 router.post('/search', isLoggedIn, function (req, res) {
   searchQuery = req.body.qs;
   client.search({
@@ -26,7 +27,8 @@ router.post('/search', isLoggedIn, function (req, res) {
   })
 });
 
-router.post('/facetedSearch', function (req, res) {
+//faceted search
+router.post('/facetedSearch', isLoggedIn, function (req, res) {
   searchQuery = req.body.qs;
   client.search({
     index: 'restaurants',
@@ -65,7 +67,8 @@ router.post('/facetedSearch', function (req, res) {
   })
 });
 
-router.post('/gradeSearch', function (req, res) {
+//avg score based search
+router.post('/gradeSearch', isLoggedIn, function (req, res) {
   gt = parseInt(req.body.gt);
   lt = parseInt(req.body.lt);
   var script = "if (_source.grades == null){return false}; m=0; s=_source.grades.size(); if(s==0){return false}; for(obj in _source.grades){ m += obj.score;}; avg=m.div(s);if(avg>=gt && avg<=lt){return avg}";
@@ -102,7 +105,8 @@ router.post('/gradeSearch', function (req, res) {
   })
 });
 
-router.post('/geoSearch', function (req, res) {
+//location based search
+router.post('/geoSearch', isLoggedIn, function (req, res) {
   lon = parseFloat(req.body.lon);
   lat = parseFloat(req.body.lat);
   client.search({
@@ -130,7 +134,8 @@ router.post('/geoSearch', function (req, res) {
   })
 });
 
-router.get('/allRestaurant', function (req, res) {
+//get all restaurant names for autocomplete
+router.get('/allRestaurant', isLoggedIn, function (req, res) {
   restaurants = Resturant.getAllNames(function (restaurants) {
     return res.json(restaurants);
   });
